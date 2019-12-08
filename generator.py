@@ -2,7 +2,7 @@ import launchdarkly_api
 import jinja2
 
 configuration = launchdarkly_api.Configuration()
-configuration.api_key['Authorization'] = 'api-b6b36629-925c-492c-b323-edd64a691248'
+configuration.api_key['Authorization'] = 'CHANGE_ME'
 api_instance = launchdarkly_api.FeatureFlagsApi(
     launchdarkly_api.ApiClient(configuration)
 )
