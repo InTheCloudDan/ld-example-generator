@@ -1,0 +1,18 @@
+import ldclient
+
+class LD{{ project | replace("_","") | replace(".", "")|replace("-", "") }}(LDClient):
+    {% for flag in flags %}
+    def {{ prefix }}{{ flag.key | replace(".", "_")|replace("-", "_") }}(self, user{% if th == true %}: dict{% endif %}, details{% if th == true %}: bool{% endif %}=False):
+        """{{ flag.description }}
+
+        :param dict user: a dictionary containing parameters for the end user requesting the flag
+        :param boolean details: call variation with details
+
+        :return: one of the flag's variation values, or the default value.
+        :rtype: {% if flag.kind == 'boolean' %}bool{% elif flag['variations'][0]['value'] is number %}int{% elif flag['variations'][0]['value'] is mapping %}dict{% endif %}
+        """
+        if details:
+            return self.variation("{{ flag.name }}", user, {{ flag.variations[flag['environments']['production'].off_variation].value }})
+        else:
+            return self.variation_detail("{{ flag.name }}", user, {{ flag.variations[flag['environments']['production'].off_variation].value }})
+    {% endfor %}
